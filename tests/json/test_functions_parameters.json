@@ -1,0 +1,10 @@
+{
+  "victims_stacked": {
+    "arguments": "df_filename, l_filename, case, df_result_filename",
+    "values": [
+      ["input_victims_stacked-1.csv", "victims_stacked.json", "case_1", "output_victims_stacked-1.csv"],
+      ["input_victims_stacked-1.csv", "victims_stacked.json", "case_2", "output_victims_stacked-1.csv"],
+      ["input_victims_stacked-1.csv", "victims_stacked.json", "case_3", "output_victims_stacked-2.csv"]
+    ]
+  }
+}

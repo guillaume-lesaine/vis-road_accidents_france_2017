@@ -1,0 +1,8 @@
+catr,type_FR,type_EN
+1,Autoroute,Freeway
+2,Route nationale,Main Road
+3,Route départementale,Secondary Road
+4,Voie communale,Way
+5,Hors réseau public,Out of Public Network
+6,Parking,Parking Lot
+9,Autre,Other
