@@ -12,3 +12,17 @@ def victims_stacked(df,t_roads):
     df_stacked = df_stacked[["type_road","seriousness","count"]]
 
     return df_stacked
+
+def proportions_pie(df,filter = False):
+    if filter :
+        df = df.loc[(df.loc[:,'seriousness_per']==3) | (df.loc[:,'seriousness_per']==4)]
+
+    length_total = len(df)
+    df_pie = df.groupby(['type_circulation']).count().reset_index()
+    print(df_pie)
+    df_pie = df_pie[['type_circulation','id']]
+    df_pie.columns = ['type_circulation','proportion']
+    df_pie['proportion'] = df_pie['proportion']/length_total*100
+    df_pie['proportion'] = df_pie['proportion'].round(1)
+
+    return df_pie
