@@ -26,3 +26,12 @@ def proportions_pie(df,filter = False):
     df_pie['proportion'] = df_pie['proportion'].round(1)
 
     return df_pie
+
+def parse_hours(s):
+    if len(s) == 4:
+        s = s[:2]
+    elif len(s) == 3:
+        s = s[0]
+    else :
+        s = "0"
+    return s

@@ -48,3 +48,16 @@ def test_victims_stacked(df_filename, l_filename, case, df_result_filename):
     df_output = method(df, l)
 
     tm.assert_frame_equal(df_output, df_result)
+
+arguments, values = dictionary_json["parse_hours"].values()
+@pytest.mark.parametrize(arguments, values)
+def test_parse_hours(s, s_result):
+    function, method = discover_function(inspect.currentframe())
+
+    '''
+        Test function of victims_stacked.
+    '''
+
+    s_output = method(s)
+
+    assert s_output == s_result
