@@ -1,0 +1,70 @@
+Surface,Atmosphere,Number
+Flooded,Bright weather,2
+Flooded,Covered weather,2
+Flooded,Fog or smoke,2
+Flooded,Heavy rain,17
+Flooded,Light rain,18
+Flooded,Normal,79
+Flooded,Other,1
+Flooded,Snow or hail,1
+Flooded,Strong wind or storm,1
+Greasy,Bright weather,1
+Greasy,Covered weather,5
+Greasy,Fog or smoke,5
+Greasy,Light rain,13
+Greasy,Normal,63
+Icy,Bright weather,3
+Icy,Covered weather,27
+Icy,Fog or smoke,32
+Icy,Heavy rain,3
+Icy,Light rain,19
+Icy,Normal,120
+Icy,Other,130
+Icy,Snow or hail,64
+Icy,Strong wind or storm,1
+Muddy,Covered weather,4
+Muddy,Heavy rain,1
+Muddy,Light rain,7
+Muddy,Normal,25
+Normal,Bright weather,838
+Normal,Covered weather,1001
+Normal,Fog or smoke,265
+Normal,Heavy rain,116
+Normal,Light rain,690
+Normal,Normal,45663
+Normal,Other,116
+Normal,Snow or hail,17
+Normal,Strong wind or storm,139
+Other,Bright weather,7
+Other,Covered weather,19
+Other,Fog or smoke,7
+Other,Light rain,5
+Other,Normal,271
+Other,Other,18
+Other,Snow or hail,6
+Other,Strong wind or storm,2
+Puddles,Bright weather,2
+Puddles,Covered weather,12
+Puddles,Fog or smoke,11
+Puddles,Heavy rain,32
+Puddles,Light rain,44
+Puddles,Normal,261
+Puddles,Other,4
+Puddles,Snow or hail,4
+Snowy,Bright weather,1
+Snowy,Covered weather,5
+Snowy,Fog or smoke,1
+Snowy,Heavy rain,1
+Snowy,Normal,29
+Snowy,Other,2
+Snowy,Snow or hail,97
+Snowy,Strong wind or storm,2
+Wet,Bright weather,22
+Wet,Covered weather,855
+Wet,Fog or smoke,177
+Wet,Heavy rain,1031
+Wet,Light rain,5499
+Wet,Normal,2021
+Wet,Other,117
+Wet,Snow or hail,106
+Wet,Strong wind or storm,63
