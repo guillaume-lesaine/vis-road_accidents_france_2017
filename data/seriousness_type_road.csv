@@ -1,0 +1,29 @@
+type_EN,seriousness_EN,Accidents
+Freeway,Unharmed,7096
+Freeway,Slightly injured,6115
+Freeway,Hospitalized,1884
+Freeway,Killed,283
+Main Road,Unharmed,4137
+Main Road,Slightly injured,3531
+Main Road,Hospitalized,2088
+Main Road,Killed,312
+Secondary Road,Unharmed,18626
+Secondary Road,Slightly injured,13635
+Secondary Road,Hospitalized,14767
+Secondary Road,Killed,2262
+Way,Unharmed,25281
+Way,Slightly injured,23118
+Way,Hospitalized,9599
+Way,Killed,674
+Out of Public Network,Unharmed,42
+Out of Public Network,Slightly injured,39
+Out of Public Network,Hospitalized,38
+Out of Public Network,Killed,2
+Parking Lot,Unharmed,455
+Parking Lot,Slightly injured,256
+Parking Lot,Hospitalized,240
+Parking Lot,Killed,16
+Other,Unharmed,633
+Other,Slightly injured,464
+Other,Hospitalized,377
+Other,Killed,51

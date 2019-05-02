@@ -21,9 +21,8 @@ dataframe_type_route = pd.read_csv("./data/" + "type_routes.csv", sep=",")
 # print(dataframe_type_route)
 type_roads = list(dataframe_type_route["catr"])
 
-dataframe_type_route = pd.read_csv("./data/" + "seriousness.csv", sep=",")
+dataframe_type_route = pd.read_csv("./data/" + "type_routes.csv", sep=",")
 # print(dataframe_type_route)
-seriousness = list(dataframe_type_route["grav"])
 
 dataframe_type_circulation = pd.read_csv("./data/" + "type_circulation.csv", sep=",")
 
@@ -39,9 +38,26 @@ dataframe_atmosphere = pd.read_csv("./data/" + "atmosphere.csv", sep=",")
 
 # Victims and seriousness depending on the type of road (Stacked bar chart)
 
-# dataframe_stacked = pd.merge(dataframe_usagers, dataframe_lieux, on=[
-#                              "Num_Acc"])[["Num_Acc", "grav", "catr"]]
-# dataframe_stacked.columns = ["id", "seriousness", "type_road"]
+dataframe_stacked = pd.merge(dataframe_usagers, dataframe_lieux, on=["Num_Acc"])[["Num_Acc", "grav", "catr"]]
+print(dataframe_type_route)
+dataframe_stacked = pd.merge(dataframe_stacked, dataframe_type_route, on=["catr"])
+print(dataframe_seriousness_meaning)
+dataframe_stacked = pd.merge(dataframe_stacked, dataframe_seriousness_meaning, on=["grav"])[["Num_Acc", "type_EN", "seriousness_EN"]]
+dataframe_stacked.columns = ["Accidents", "type_EN", "seriousness_EN"]
+
+#dataframe_stacked.columns = ["id", "seriousness", "type_road"]
+
+dataframe_stacked = dataframe_stacked.groupby(["type_EN", "seriousness_EN"]).count()
+
+list_index_roads = list(dataframe_type_route["type_EN"].values)
+list_index_seriousness = list(dataframe_seriousness_meaning["seriousness_EN"].values)
+mux = pd.MultiIndex.from_product([list_index_roads, list_index_seriousness], names=dataframe_stacked.index.names)
+dataframe_stacked = dataframe_stacked.reindex(mux)
+
+dataframe_stacked = dataframe_stacked.reset_index(level=1, inplace=False).reset_index(level=0, inplace=False)#.reset_index(level=0, inplace=False)
+dataframe_stacked.to_csv("./data/seriousness_type_road.csv", index=False)
+print(dataframe_stacked)
+
 # dataframe_stacked = functions.victims_stacked(dataframe_stacked, type_roads)
 # dataframe_stacked.to_csv("./data/victims-seriousness_road.csv", index=False)
 #
@@ -97,13 +113,13 @@ dataframe_atmosphere = pd.read_csv("./data/" + "atmosphere.csv", sep=",")
 
 # Weather and state of the road
 
-dataframe_weather = pd.merge(dataframe_caracteristiques, dataframe_lieux, on=["Num_Acc"])[["Num_Acc","surf", "atm"]]
-dataframe_weather = pd.merge(dataframe_weather, dataframe_surface, on=["surf"])
-dataframe_weather = pd.merge(dataframe_weather, dataframe_atmosphere, on=["atm"])
-
-dataframe_weather = dataframe_weather.groupby(["Surface","Atmosphere"]).count().astype(int)#.reset_index(level=0, inplace=False)
-dataframe_weather = dataframe_weather.reset_index(level=1, inplace=False).reset_index(level=0, inplace=False)
-dataframe_weather = dataframe_weather[["Surface","Atmosphere","Num_Acc"]]
-dataframe_weather.columns = ["Surface","Atmosphere","Number"]
-
-dataframe_weather.to_csv("./data/surface_atmosphere_weather.csv", index=False)
+# dataframe_weather = pd.merge(dataframe_caracteristiques, dataframe_lieux, on=["Num_Acc"])[["Num_Acc","surf", "atm"]]
+# dataframe_weather = pd.merge(dataframe_weather, dataframe_surface, on=["surf"])
+# dataframe_weather = pd.merge(dataframe_weather, dataframe_atmosphere, on=["atm"])
+#
+# dataframe_weather = dataframe_weather.groupby(["Surface","Atmosphere"]).count().astype(int)#.reset_index(level=0, inplace=False)
+# dataframe_weather = dataframe_weather.reset_index(level=1, inplace=False).reset_index(level=0, inplace=False)
+# dataframe_weather = dataframe_weather[["Surface","Atmosphere","Num_Acc"]]
+# dataframe_weather.columns = ["Surface","Atmosphere","Number"]
+#
+# dataframe_weather.to_csv("./data/surface_atmosphere_weather.csv", index=False)
