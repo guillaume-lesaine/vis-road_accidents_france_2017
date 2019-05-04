@@ -1,0 +1,29 @@
+type_EN,seriousness_EN,Accidents
+Freeway,Unharmed,46.143841851996356
+Freeway,Slightly injured,39.76459877747431
+Freeway,Hospitalized,12.251268045259462
+Freeway,Killed,1.840291325269866
+Main Road,Unharmed,41.090584028605484
+Main Road,Slightly injured,35.0715137067938
+Main Road,Hospitalized,20.738974970202623
+Main Road,Killed,3.098927294398093
+Secondary Road,Unharmed,37.78859809291946
+Secondary Road,Slightly injured,27.662811929397446
+Secondary Road,Hospitalized,29.959423818218706
+Secondary Road,Killed,4.589166159464394
+Way,Unharmed,43.08869648213799
+Way,Slightly injured,39.402099809108265
+Way,Hospitalized,16.360444505044995
+Way,Killed,1.1487592037087537
+Out of Public Network,Unharmed,34.710743801652896
+Out of Public Network,Slightly injured,32.231404958677686
+Out of Public Network,Hospitalized,31.40495867768595
+Out of Public Network,Killed,1.6528925619834711
+Parking Lot,Unharmed,47.05274043433299
+Parking Lot,Slightly injured,26.47362978283351
+Parking Lot,Hospitalized,24.819027921406413
+Parking Lot,Killed,1.6546018614270943
+Other,Unharmed,41.50819672131148
+Other,Slightly injured,30.426229508196723
+Other,Hospitalized,24.721311475409834
+Other,Killed,3.344262295081967

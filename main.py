@@ -39,13 +39,11 @@ dataframe_atmosphere = pd.read_csv("./data/" + "atmosphere.csv", sep=",")
 # Victims and seriousness depending on the type of road (Stacked bar chart)
 
 dataframe_stacked = pd.merge(dataframe_usagers, dataframe_lieux, on=["Num_Acc"])[["Num_Acc", "grav", "catr"]]
-print(dataframe_type_route)
+
 dataframe_stacked = pd.merge(dataframe_stacked, dataframe_type_route, on=["catr"])
-print(dataframe_seriousness_meaning)
+
 dataframe_stacked = pd.merge(dataframe_stacked, dataframe_seriousness_meaning, on=["grav"])[["Num_Acc", "type_EN", "seriousness_EN"]]
 dataframe_stacked.columns = ["Accidents", "type_EN", "seriousness_EN"]
-
-#dataframe_stacked.columns = ["id", "seriousness", "type_road"]
 
 dataframe_stacked = dataframe_stacked.groupby(["type_EN", "seriousness_EN"]).count()
 
@@ -54,72 +52,77 @@ list_index_seriousness = list(dataframe_seriousness_meaning["seriousness_EN"].va
 mux = pd.MultiIndex.from_product([list_index_roads, list_index_seriousness], names=dataframe_stacked.index.names)
 dataframe_stacked = dataframe_stacked.reindex(mux)
 
-dataframe_stacked = dataframe_stacked.reset_index(level=1, inplace=False).reset_index(level=0, inplace=False)#.reset_index(level=0, inplace=False)
-dataframe_stacked.to_csv("./data/seriousness_type_road.csv", index=False)
-print(dataframe_stacked)
+dataframe_stacked_ratio = dataframe_stacked.copy()
 
-# dataframe_stacked = functions.victims_stacked(dataframe_stacked, type_roads)
-# dataframe_stacked.to_csv("./data/victims-seriousness_road.csv", index=False)
-#
-# # Proportions of accidents depending on the type of circulation for the road
-#
-# dataframe_circulation = pd.merge(dataframe_caracteristiques, dataframe_lieux,
-#                                  on=['Num_Acc'])[['Num_Acc', 'circ', 'catr']]
-# dataframe_circulation = pd.merge(dataframe_usagers, dataframe_circulation, on=[
-#                                  'Num_Acc'])[['Num_Acc', 'circ', 'catr', 'grav']]
-# dataframe_circulation['circ'] = dataframe_circulation['circ'].fillna(0).astype(int)
-# dataframe_circulation.columns = ['id', 'type_circulation', 'type_road', 'seriousness_per']
-#
-# dataframe_pie_chart = functions.proportions_pie(dataframe_circulation)
-# dataframe_pie_chart["type_circulation"] = dataframe_type_circulation["type_circulation"]
-# dataframe_pie_chart.to_csv("./data/proportion-accidents_road.csv", index=False)
-#
-# dataframe_pie_chart_serious = functions.proportions_pie(dataframe_circulation, filter=True)
-# dataframe_pie_chart_serious["type_circulation"] = dataframe_type_circulation["type_circulation"]
-# dataframe_pie_chart_serious.to_csv("./data/proportion-serious-accidents_road.csv", index=False)
+for x in list_index_roads:
+    dataframe_stacked_ratio.loc[x,:] = dataframe_stacked_ratio.loc[x,:]/np.sum(dataframe_stacked_ratio.loc[x,:]["Accidents"])*100
+
+dataframe_stacked = dataframe_stacked.reset_index(level=1, inplace=False).reset_index(level=0, inplace=False)#.reset_index(level=0, inplace=False)
+dataframe_stacked_ratio = dataframe_stacked_ratio.reset_index(level=1, inplace=False).reset_index(level=0, inplace=False)#.reset_index(level=0, inplace=False)
+
+dataframe_stacked.to_csv("./data/seriousness_type_road.csv", index=False)
+dataframe_stacked_ratio.to_csv("./data/seriousness_type_road_ratio.csv", index=False)
+
+
+# Proportions of accidents depending on the type of circulation for the road
+
+dataframe_circulation = pd.merge(dataframe_caracteristiques, dataframe_lieux,
+                                 on=['Num_Acc'])[['Num_Acc', 'circ', 'catr']]
+dataframe_circulation = pd.merge(dataframe_usagers, dataframe_circulation, on=[
+                                 'Num_Acc'])[['Num_Acc', 'circ', 'catr', 'grav']]
+dataframe_circulation['circ'] = dataframe_circulation['circ'].fillna(0).astype(int)
+dataframe_circulation.columns = ['id', 'type_circulation', 'type_road', 'seriousness_per']
+
+dataframe_pie_chart = functions.proportions_pie(dataframe_circulation)
+dataframe_pie_chart["type_circulation"] = dataframe_type_circulation["type_circulation"]
+dataframe_pie_chart.to_csv("./data/proportion-accidents_road.csv", index=False)
+
+dataframe_pie_chart_serious = functions.proportions_pie(dataframe_circulation, filter=True)
+dataframe_pie_chart_serious["type_circulation"] = dataframe_type_circulation["type_circulation"]
+dataframe_pie_chart_serious.to_csv("./data/proportion-serious-accidents_road.csv", index=False)
 
 ### Crashes & Time
 
 # Daily distributions
 
-# dataframe_time = pd.merge(dataframe_caracteristiques, dataframe_usagers, on=["Num_Acc"])[["Num_Acc", "hrmn", "grav"]]
-#
-# dataframe_time["hrmn"] = (dataframe_time["hrmn"].astype(str)
-#         .apply(functions.parse_hours)
-#         .astype(int))
-#
-# dataframe_time_accidents = (dataframe_time[["Num_Acc", "hrmn"]].drop_duplicates("Num_Acc")
-#                                                             .groupby(['hrmn']).count())
-# dataframe_time_accidents.columns = ["Accidents"]
-#
-# for x in set(dataframe_time["grav"].values):
-#     dataframe_time_seriousness = (dataframe_time.loc[dataframe_time.loc[:,"grav"] == x]
-#                                     .groupby(['hrmn']).count()[["grav"]])
-#     dataframe_time_seriousness.columns = ["{}".format(dataframe_seriousness_meaning["seriousness_EN"].values[x-1])]
-#     dataframe_time_accidents = pd.concat([dataframe_time_accidents , dataframe_time_seriousness], axis=1)
-#
-# dataframe_time_accidents.to_csv("./data/numbers-hours_time.csv", index=True)
+dataframe_time = pd.merge(dataframe_caracteristiques, dataframe_usagers, on=["Num_Acc"])[["Num_Acc", "hrmn", "grav"]]
+
+dataframe_time["hrmn"] = (dataframe_time["hrmn"].astype(str)
+        .apply(functions.parse_hours)
+        .astype(int))
+
+dataframe_time_accidents = (dataframe_time[["Num_Acc", "hrmn"]].drop_duplicates("Num_Acc")
+                                                            .groupby(['hrmn']).count())
+dataframe_time_accidents.columns = ["Accidents"]
+
+for x in set(dataframe_time["grav"].values):
+    dataframe_time_seriousness = (dataframe_time.loc[dataframe_time.loc[:,"grav"] == x]
+                                    .groupby(['hrmn']).count()[["grav"]])
+    dataframe_time_seriousness.columns = ["{}".format(dataframe_seriousness_meaning["seriousness_EN"].values[x-1])]
+    dataframe_time_accidents = pd.concat([dataframe_time_accidents , dataframe_time_seriousness], axis=1)
+
+dataframe_time_accidents.to_csv("./data/numbers-hours_time.csv", index=True)
 
 # Effect of light
 
-# dataframe_luminosity_accidents = (dataframe_caracteristiques[["Num_Acc", "lum"]].groupby(['lum']).count()
-#                                     .reset_index(level=0, inplace=False))
-# dataframe_luminosity_accidents = pd.merge(dataframe_luminosity_accidents, dataframe_luminosity, on=["lum"])[["Num_Acc", "Light"]]
-# dataframe_luminosity_accidents.columns =  ["Accidents", "Light"]
-#
-# dataframe_luminosity_accidents = dataframe_luminosity_accidents.sort_values("Accidents", ascending=False)
-#
-# dataframe_luminosity_accidents.to_csv("./data/numbers_lumninosity_time.csv", index=False)
+dataframe_luminosity_accidents = (dataframe_caracteristiques[["Num_Acc", "lum"]].groupby(['lum']).count()
+                                    .reset_index(level=0, inplace=False))
+dataframe_luminosity_accidents = pd.merge(dataframe_luminosity_accidents, dataframe_luminosity, on=["lum"])[["Num_Acc", "Light"]]
+dataframe_luminosity_accidents.columns =  ["Accidents", "Light"]
+
+dataframe_luminosity_accidents = dataframe_luminosity_accidents.sort_values("Accidents", ascending=False)
+
+dataframe_luminosity_accidents.to_csv("./data/numbers_lumninosity_time.csv", index=False)
 
 # Weather and state of the road
 
-# dataframe_weather = pd.merge(dataframe_caracteristiques, dataframe_lieux, on=["Num_Acc"])[["Num_Acc","surf", "atm"]]
-# dataframe_weather = pd.merge(dataframe_weather, dataframe_surface, on=["surf"])
-# dataframe_weather = pd.merge(dataframe_weather, dataframe_atmosphere, on=["atm"])
-#
-# dataframe_weather = dataframe_weather.groupby(["Surface","Atmosphere"]).count().astype(int)#.reset_index(level=0, inplace=False)
-# dataframe_weather = dataframe_weather.reset_index(level=1, inplace=False).reset_index(level=0, inplace=False)
-# dataframe_weather = dataframe_weather[["Surface","Atmosphere","Num_Acc"]]
-# dataframe_weather.columns = ["Surface","Atmosphere","Number"]
-#
-# dataframe_weather.to_csv("./data/surface_atmosphere_weather.csv", index=False)
+dataframe_weather = pd.merge(dataframe_caracteristiques, dataframe_lieux, on=["Num_Acc"])[["Num_Acc","surf", "atm"]]
+dataframe_weather = pd.merge(dataframe_weather, dataframe_surface, on=["surf"])
+dataframe_weather = pd.merge(dataframe_weather, dataframe_atmosphere, on=["atm"])
+
+dataframe_weather = dataframe_weather.groupby(["Surface","Atmosphere"]).count().astype(int)#.reset_index(level=0, inplace=False)
+dataframe_weather = dataframe_weather.reset_index(level=1, inplace=False).reset_index(level=0, inplace=False)
+dataframe_weather = dataframe_weather[["Surface","Atmosphere","Num_Acc"]]
+dataframe_weather.columns = ["Surface","Atmosphere","Number"]
+
+dataframe_weather.to_csv("./data/surface_atmosphere_weather.csv", index=False)
